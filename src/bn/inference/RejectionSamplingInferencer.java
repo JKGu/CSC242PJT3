@@ -15,7 +15,7 @@ import bn.core.Inferencer;
 import bn.core.RandomVariable;
 import bn.core.Value;
 
-public class RejectionSamplingInferencer extends java.lang.Object implements Inferencer {
+public class RejectionSamplingInferencer extends java.lang.Object {
 
 	public Value getValue(int i,bn.core.Domain domain) {
 		int counter = 0;
@@ -40,13 +40,14 @@ public class RejectionSamplingInferencer extends java.lang.Object implements Inf
 		}
 		return true;
 	}
-	@Override
-	public Distribution query(RandomVariable X, Assignment e, BayesianNetwork network) {
+	//@Override
+	public Distribution query(RandomVariable X, Assignment e, BayesianNetwork network,int n) {
+		
 		Distribution result = new bn.base.Distribution(X);
 		for(Value k: X.getDomain()) {
 			result.set(k, 0);
 		}
-		for(int i=0; i<51200; i++) {
+		for(int i=0; i<n; i++) {
 			Assignment a = pSample(network);
 			//System.out.println("here"+a);
 			if(isConsistent(a,e)) {
@@ -79,7 +80,7 @@ public class RejectionSamplingInferencer extends java.lang.Object implements Inf
 			temp.put(r, v);
 			double p = network.getProbability(r, temp);
 			t+=p;
-			if(random<p) {
+			if(random<t) {
 				return v;
 			}else {
 				return v2;
@@ -87,6 +88,12 @@ public class RejectionSamplingInferencer extends java.lang.Object implements Inf
 		}
 		return null;
 	}
+
+//	@Override
+//	public Distribution query(RandomVariable X, Assignment e, BayesianNetwork network) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 
 }
