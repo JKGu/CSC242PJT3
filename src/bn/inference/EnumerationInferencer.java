@@ -3,6 +3,7 @@ package bn.inference;
 import java.util.List;
 import java.util.Set;
 
+import bn.base.BayesianNetwork.Node;
 import bn.base.BooleanValue;
 import bn.base.CPT;
 import bn.core.Assignment;
@@ -23,7 +24,8 @@ public class EnumerationInferencer extends java.lang.Object implements Inference
 		for(Value xi:xDomain) {
 			Assignment cpy=e.copy();
 			cpy.put(X, xi);
-			double r=enumerateAll(network,cpy,network.getVariablesSortedTopologically());
+			double r=enumerateAll(network,cpy,vars);
+			//System.out.println(r);
 			Q.set(xi, r);
 		} 
 		Q.normalize();
@@ -44,7 +46,7 @@ public class EnumerationInferencer extends java.lang.Object implements Inference
 			}
 			vars.remove(0);
 			*/
-    		if(e.containsValue(Y)) {
+    		if(e.containsKey(Y)) {
 				Assignment cpy=e.copy();
 				return network.getProbability(Y, cpy)*enumerateAll(network, cpy, vars.subList(1, vars.size()));
     		}else {
@@ -53,10 +55,16 @@ public class EnumerationInferencer extends java.lang.Object implements Inference
     			for(Value y:yDomain) {
 					Assignment cpy=e.copy();
 					cpy.put(Y,y);
+
+//					for(RandomVariable r:parent) {
+//						temp.put(Y, e.get(r));
+//					}
 					result += network.getProbability(Y, cpy)*enumerateAll(network, cpy, vars.subList(1, vars.size()));
+    			
     			}
     			return result;
     		}
     }
+   
     
 }
