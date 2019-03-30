@@ -3,6 +3,8 @@ package bn.core;
 import java.util.List;
 import java.util.Set;
 
+import bn.base.BayesianNetwork.Node;
+
 /**
  * A BayesianNetwork is a directed acyclic graph where the nodes
  * correspond to RandomVariables and store the conditional distribution
@@ -56,5 +58,7 @@ public interface BayesianNetwork {
 	 * Return the RandomVariable with the given name from this BayesianNetwork.
 	 */
 	public RandomVariable getVariableByName(String name);
+
+	public Node getNodeForVariable(RandomVariable v);
 	
 }
