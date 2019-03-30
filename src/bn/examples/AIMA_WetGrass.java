@@ -12,6 +12,7 @@ import bn.core.Distribution;
 import bn.core.Inferencer;
 import bn.core.RandomVariable;
 import bn.inference.EnumerationInferencer;
+import bn.inference.LikelihoodWeightingInferencer;
 import bn.util.ArraySet;
 
 /**
@@ -58,7 +59,6 @@ public class AIMA_WetGrass {
 		bn.connect(S, justC, SgivenC);
 
 		// C -> R
-		justC.add(C);
 		CPT RgivenC = new bn.base.CPT(R);
 		a = new bn.base.Assignment();
 		a.put(C, TRUE);
@@ -100,10 +100,11 @@ public class AIMA_WetGrass {
 		System.out.println(bn);
 		
 		System.out.println("P(Rain|Sprinkler=true) = <0.3,0.7>");
-		Inferencer exact = new EnumerationInferencer();
+		LikelihoodWeightingInferencer exact = new LikelihoodWeightingInferencer();
 		a = new bn.base.Assignment();
-		a.put(S, TRUE);
-		Distribution dist = exact.query(R, a, bn);
+		a.put(C, TRUE);
+		a.put(W, TRUE);
+		Distribution dist = exact.query(R, a, bn,100);
 		System.out.println(dist);
 	}
 

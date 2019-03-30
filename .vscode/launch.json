@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - AIMA_WetGrass",
+            "request": "launch",
+            "mainClass": "bn.examples.AIMA_WetGrass",
+            "projectName": "Project3_787c3e88"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MyApproxInferencer",
+            "request": "launch",
+            "mainClass": "bn.inference.MyApproxInferencer",
+            "projectName": "Project3_787c3e88"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - AIMA_Alarm",
+            "request": "launch",
+            "mainClass": "bn.examples.AIMA_Alarm",
+            "projectName": "Project3_787c3e88"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"

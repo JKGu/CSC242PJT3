@@ -9,6 +9,7 @@ import bn.core.Distribution;
 import bn.core.Inferencer;
 import bn.core.RandomVariable;
 import bn.inference.EnumerationInferencer;
+import bn.inference.LikelihoodWeightingInferencer;
 import bn.inference.RejectionSamplingInferencer;
 import bn.base.BooleanDomain;
 import bn.base.BooleanValue;
@@ -122,7 +123,7 @@ public class AIMA_Alarm {
 		
 		Distribution dist = exact.query(B, a, bn);
 		System.out.println("result for exact inference: "+dist);
-		RejectionSamplingInferencer approx = new RejectionSamplingInferencer();
+		LikelihoodWeightingInferencer approx = new LikelihoodWeightingInferencer();
 		Distribution dist2 = approx.query(B, a, bn,50000);
 		System.out.println("result for approximate inference: "+dist2);
 	}
