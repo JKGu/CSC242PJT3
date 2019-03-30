@@ -60,7 +60,17 @@ public class RejectionSamplingInferencer extends java.lang.Object {
 
 		return result;
 	}
-	
+	public double largestProb(RandomVariable r,BayesianNetwork bn,Assignment e) {
+		PriorityQueue<Double> pQueue = new PriorityQueue<Double>(); 
+		int dSize = r.getDomain().size();
+		ArrayList<Double> prob = new ArrayList<Double>();
+		Node n = bn.getNodeForVariable(r);
+		for(int i=0;i<dSize;i++) {
+			double p=n.cpt.get(getValue(i,r.getDomain()),e);
+			pQueue.add(p);
+		}
+		return (1-pQueue.peek());
+	}
 	public Assignment pSample(BayesianNetwork network) {
 		Assignment event = new bn.base.Assignment();
 		for(RandomVariable r: network.getVariablesSortedTopologically()) {
@@ -75,9 +85,12 @@ public class RejectionSamplingInferencer extends java.lang.Object {
 	
 
 	public Value randomSample(BayesianNetwork network,Assignment e,RandomVariable r) {
+		double d = largestProb(r, network, e);
 		int dSize=  r.getDomain().size();
 		double counter = 0;
-		double random = Math.random();
+		Random rd = new Random();
+		double random = 0 + (d - 0) * rd.nextDouble();
+		//System.out.println(random);
 		double p = 0;
 		for(int i=0;i<dSize;i++) {
 			Assignment temp = e.copy();
