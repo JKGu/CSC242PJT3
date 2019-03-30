@@ -2,6 +2,7 @@ package bn.inference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 import bn.base.BooleanValue;
@@ -59,32 +60,49 @@ public class RejectionSamplingInferencer extends java.lang.Object {
 
 		return result;
 	}
-
+//	public double largestProb(RandomVariable r,BayesianNetwork bn,Assignment e) {
+//		PriorityQueue<Double> pQueue = new PriorityQueue<Double>(); 
+//		int dSize = r.getDomain().size();
+//		ArrayList<Double> prob = new ArrayList<Double>();
+//		Node n = bn.getNodeForVariable(r);
+//		for(int i=0;i<dSize;i++) {
+//			double p=n.cpt.get(getValue(i,r.getDomain()),e);
+//			pQueue.add(p);
+//		}
+//		return (1-pQueue.peek());
+//	}
 	public Assignment pSample(BayesianNetwork network) {
 		Assignment event = new bn.base.Assignment();
 		for(RandomVariable r: network.getVariablesSortedTopologically()) {
 			Assignment temp = event.copy();
+			Value v = randomSample(network,temp,r);
+			if(v!=null) {
 			event.put(r, randomSample(network,temp,r));
+			}
 		}
 		return event;
 	}
 	
+
 	public Value randomSample(BayesianNetwork network,Assignment e,RandomVariable r) {
-		double random = Math.random();
-		int dSize = r.getDomain().size();
-		double t = 0;
+		double d = largestProb(r, network, e);
+		int dSize=  r.getDomain().size();
+		double counter = 0;
+		Random rd = new Random();
+		double random = 0 + (d - 0) * rd.nextDouble();
+		//System.out.println(random);
+		double p = 0;
 		for(int i=0;i<dSize;i++) {
 			Assignment temp = e.copy();
 			bn.core.Value v = getValue(i,r.getDomain());
 			bn.core.Value v2= getValue(1-i,r.getDomain());
 			temp.put(r, v);
-			double p = network.getProbability(r, temp);
-			t+=p;
-			if(random<t) {
+			p = network.getProbability(r, temp);
+			counter+=p;
+			if(random<=counter) {
 				return v;
-			}else {
-				return v2;
-			}
+			}		
+
 		}
 		return null;
 	}
