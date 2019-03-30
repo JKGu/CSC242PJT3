@@ -26,7 +26,7 @@ public class BayesianNetwork implements bn.core.BayesianNetwork {
 		RandomVariable variable;
 		Set<Node> parents;
 		Set<Node> children = new ArraySet<Node>();
-		CPT cpt;
+		public CPT cpt;
 
 		Node(RandomVariable variable) {
 			this.variable = variable;
@@ -69,6 +69,7 @@ public class BayesianNetwork implements bn.core.BayesianNetwork {
 	 * Return the Node for given RandomVariable from this BayesianNetwork.
 	 * @throws NoSuchElementException
 	 */
+	@Override
 	public Node getNodeForVariable(RandomVariable var) {
 		for (Node node : nodes) {
 			if (node.variable == var) {
@@ -265,5 +266,7 @@ public class BayesianNetwork implements bn.core.BayesianNetwork {
 		}
 		return builder.toString();
 	}
+
+	
 
 }
