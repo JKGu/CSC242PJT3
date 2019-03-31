@@ -30,7 +30,7 @@ public class LikelihoodWeightingInferencer extends java.lang.Object  {
 			double weight = sample.weight ;
 			//W[x]<W[X]+w where x is value of X in x
 			result.set(a.get(X), (result.get(a.get(X)) + weight));
-			System.out.println(result.toString());
+			//System.out.println("hi"+result.toString());
 		}
 		result.normalize();
 		return result;
@@ -41,7 +41,7 @@ public class LikelihoodWeightingInferencer extends java.lang.Object  {
 		Assignment x=new bn.base.Assignment(); 		Assignment xe=new bn.base.Assignment();
 		List<RandomVariable> topoList=network.getVariablesSortedTopologically();
 		for (RandomVariable r: topoList) {
-			System.out.println("-------"+r);
+			//System.out.println("-------"+r);
 			x.put(r, null); 
 			if(e.containsKey(r)) {
 				Set<RandomVariable> parentsList=network.getParents(r);//NOT SURE
@@ -55,11 +55,11 @@ public class LikelihoodWeightingInferencer extends java.lang.Object  {
 				x.put(r, e.get(r));
 				xe.put(r, e.get(r));
 			}else {
-				System.out.println(x.toString()+"  "+xe.toString());
+				//System.out.println(x.toString()+"  "+xe.toString());
 				x.put(r, randomSample(network,xe,r));
 			}
 		}
-		System.out.println("DEBUG 59: "+weight+" "+x.toString());
+		//System.out.println("DEBUG 59: "+weight+" "+x.toString());
 		return new WeightedSampler(x,weight);
 
 	}
@@ -70,22 +70,24 @@ public class LikelihoodWeightingInferencer extends java.lang.Object  {
 		int dSize=  r.getDomain().size();
 		double counter = 0;
 		Random rd = new Random();
-		double random = 0 + (1 - 0) * rd.nextDouble();
+		//double random = 0 + (1 - 0) * rd.nextDouble();
+		double random = Math.random();
 		//System.out.println(random);
 		double p = 0;
 		for(int i=0;i<dSize;i++) {
-			Assignment temp = e.copy();
+			//Assignment temp = e.copy();
 			bn.core.Value v = getValue(i,r.getDomain());
-			bn.core.Value v2= getValue(1-i,r.getDomain());
-			temp.put(r, v);
-			p = network.getProbability(r, temp);
-			System.out.println(r.toString()+"  prob"+p);
+			e.put(r, v);
+			//System.out.println("argument "+v);
+			p = network.getProbability(r, e);
+			//System.out.println(r.toString()+"  prob :"+p);
 			counter+=p;
 			if(random<=counter) {
 				return v;
 			}  
 
 		}
+		
 		return null;
 	}
 

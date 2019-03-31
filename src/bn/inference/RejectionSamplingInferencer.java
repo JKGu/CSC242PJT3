@@ -76,9 +76,9 @@ public class RejectionSamplingInferencer extends java.lang.Object {
 		for(RandomVariable r: network.getVariablesSortedTopologically()) {
 			Assignment temp = event.copy();
 			Value v = randomSample(network,temp,r);
-			if(v!=null) {
-			event.put(r, randomSample(network,temp,r));
-			}
+		
+			event.put(r, v);
+			
 		}
 		return event;
 	}
@@ -90,6 +90,7 @@ public class RejectionSamplingInferencer extends java.lang.Object {
 		double counter = 0;
 		Random rd = new Random();
 		double random = 0 + (d - 0) * rd.nextDouble();
+		double random2 = Math.random();
 		//System.out.println(random);
 		double p = 0;
 		for(int i=0;i<dSize;i++) {
@@ -99,11 +100,12 @@ public class RejectionSamplingInferencer extends java.lang.Object {
 			temp.put(r, v);
 			p = network.getProbability(r, temp);
 			counter+=p;
-			if(random<=counter) {
+			if(random2<=counter) {
 				return v;
 			}		
 
 		}
+		System.out.println(counter);
 		return null;
 	}
 

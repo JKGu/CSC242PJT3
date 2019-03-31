@@ -42,10 +42,15 @@ public class MyApproxInferencer {
         }
 
        
-        System.out.println("Approx Inference: ");
+        System.out.println("Rejection Sampling: ");
         RejectionSamplingInferencer exact = new RejectionSamplingInferencer();
         bn.core.Distribution dist = exact.query(bn.getVariableByName(query), event ,bn,sampleN);
         System.out.println(dist);
+        
+        System.out.println("Likelihood Sampling: ");
+        RejectionSamplingInferencer like = new RejectionSamplingInferencer();
+        bn.core.Distribution dist2 = like.query(bn.getVariableByName(query), event ,bn,sampleN);
+        System.out.println(dist2);
 
 	}
 }
