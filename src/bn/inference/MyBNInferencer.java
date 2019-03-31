@@ -38,7 +38,7 @@ public class MyBNInferencer {
         
         Assignment event = new Assignment();
         for(int i = 0; i < observedEvidence.size() - 1; i += 2){
-        	event.put(bn.getVariableByName(observedEvidence.get(i)), new Value(observedEvidence.get(i + 1)));
+        	event.put(bn.getVariableByName(observedEvidence.get(i)), new Value<String>(observedEvidence.get(i + 1)));
         }
 
        

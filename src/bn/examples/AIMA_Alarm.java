@@ -10,7 +10,6 @@ import bn.core.Inferencer;
 import bn.core.RandomVariable;
 import bn.inference.EnumerationInferencer;
 import bn.inference.LikelihoodWeightingInferencer;
-import bn.inference.RejectionSamplingInferencer;
 import bn.base.BooleanDomain;
 import bn.base.BooleanValue;
 import bn.base.NamedVariable;
