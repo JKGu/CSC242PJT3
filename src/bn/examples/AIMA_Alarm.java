@@ -9,6 +9,8 @@ import bn.core.Distribution;
 import bn.core.Inferencer;
 import bn.core.RandomVariable;
 import bn.inference.EnumerationInferencer;
+import bn.inference.GibbsSamplingInferencer;
+import bn.inference.LikelihoodWeightingInferencer;
 import bn.base.BooleanDomain;
 import bn.base.BooleanValue;
 import bn.base.NamedVariable;
@@ -98,7 +100,7 @@ public class AIMA_Alarm {
 		a = new bn.base.Assignment();
 		a.put(A, TRUE);
 		MgivenA.set(TRUE, a, 0.7);
-		MgivenA.set(FALSE, a, 1-0.8);
+		MgivenA.set(FALSE, a, 1-0.7);
 		a = new bn.base.Assignment();
 		a.put(A, FALSE);
 		MgivenA.set(TRUE, a, 0.01);
@@ -107,13 +109,23 @@ public class AIMA_Alarm {
 		
 		System.out.println(bn);
 		
+		
 		System.out.println("P(B|j,m) = \\alpha <0.00059224,0.0014919> ~= <0.284,0.716>");
 		Inferencer exact = new EnumerationInferencer();
 		a = new bn.base.Assignment();
 		a.put(J, TRUE);
 		a.put(M, TRUE);
+		
+		//
+		
+		
+		
+		
 		Distribution dist = exact.query(B, a, bn);
-		System.out.println(dist);
+		System.out.println("result for exact inference: "+dist);
+		GibbsSamplingInferencer approx = new GibbsSamplingInferencer();
+		Distribution dist2 = approx.query(B, (bn.base.Assignment) a, bn, 100);
+		System.out.println("result for approximate inference: "+dist2);
 	}
 
 }

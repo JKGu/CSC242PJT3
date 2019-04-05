@@ -39,6 +39,9 @@ public class Distribution extends ArrayMap<Value,Double> implements bn.core.Dist
 		this.variable = X;
 	}
 
+	public Distribution() {
+	}
+
 	/**
 	 * Set the probability for the given Value in this Distribution.
 	 */
